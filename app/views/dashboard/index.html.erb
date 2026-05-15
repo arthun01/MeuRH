@@ -1,0 +1,38 @@
+<div class="page-header">
+  <h1 class="page-title">Dashboard</h1>
+  <p class="page-subtitle">Visão geral da sua empresa <%= current_user.company&.name %></p>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-bottom: 40px;">
+  <!-- Card 1 -->
+  <div class="glass-panel" style="padding: 24px;">
+    <h3 style="color: var(--text-muted); font-size: 0.9rem; font-weight: 500; margin-bottom: 8px;">Total de Funcionários</h3>
+    <div style="font-size: 2.5rem; font-weight: 800; color: white;">
+      <%= @employees.count %>
+    </div>
+  </div>
+
+  <!-- Card 2 -->
+  <div class="glass-panel" style="padding: 24px;">
+    <h3 style="color: var(--text-muted); font-size: 0.9rem; font-weight: 500; margin-bottom: 8px;">Total de Cargos</h3>
+    <div style="font-size: 2.5rem; font-weight: 800; color: white;">
+      <%= @roles_count %>
+    </div>
+  </div>
+
+  <!-- Card 3 -->
+  <div class="glass-panel" style="padding: 24px;">
+    <h3 style="color: var(--text-muted); font-size: 0.9rem; font-weight: 500; margin-bottom: 8px;">Média Salarial</h3>
+    <div style="font-size: 2.5rem; font-weight: 800; color: #a5b4fc;">
+      <%= number_to_currency(@average_salary, unit: "R$ ", separator: ",", delimiter: ".") %>
+    </div>
+  </div>
+</div>
+
+<div class="glass-panel" style="padding: 32px;">
+  <h2 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 20px;">Ações Rápidas</h2>
+  <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+    <%= link_to "+ Novo Funcionário", new_employee_path, class: "glass-button", style: "width: auto;" %>
+    <%= link_to "+ Novo Cargo", new_role_path, class: "glass-button", style: "width: auto; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border);" %>
+  </div>
+</div>

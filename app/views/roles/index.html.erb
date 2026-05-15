@@ -1,0 +1,36 @@
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+  <div>
+    <h1 class="page-title">Cargos</h1>
+    <p class="page-subtitle">Gerencie os cargos e salários da <%= current_user.company.name %></p>
+  </div>
+  <%= link_to "+ Novo Cargo", new_role_path, class: "glass-button", style: "width: auto;" %>
+</div>
+
+<div class="glass-panel" style="overflow-x: auto;">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Salário Base</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @roles.each do |role| %>
+        <tr>
+          <td><strong><%= role.title %></strong></td>
+          <td><%= number_to_currency(role.base_salary, unit: "R$ ", separator: ",", delimiter: ".") %></td>
+          <td style="display: flex; gap: 12px;">
+            <%= link_to "Editar", edit_role_path(role), style: "color: var(--primary-color); text-decoration: none; font-weight: 500;" %>
+            <%= button_to "Excluir", role, method: :delete, data: { turbo_confirm: "Tem certeza?" }, style: "background: none; border: none; color: #fca5a5; font-weight: 500; cursor: pointer; padding: 0;" %>
+          </td>
+        </tr>
+      <% end %>
+      <% if @roles.empty? %>
+        <tr>
+          <td colspan="3" style="text-align: center; color: var(--text-muted); padding: 32px;">Nenhum cargo cadastrado ainda.</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,47 @@
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+  <div>
+    <h1 class="page-title">Funcionários</h1>
+    <p class="page-subtitle">Gestão da sua equipe (<%= current_user.company.name %>)</p>
+  </div>
+  <div style="display: flex; gap: 12px;">
+    <% if current_user.admin? %>
+      <%= link_to "Exportar Relatório", export_employees_path(format: :csv), class: "glass-button", style: "width: auto; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border);", data: { turbo: false } %>
+      <%= link_to "+ Novo Funcionário", new_employee_path, class: "glass-button", style: "width: auto;" %>
+    <% end %>
+  </div>
+</div>
+
+<div class="glass-panel" style="overflow-x: auto;">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>CPF</th>
+        <th>Cargo</th>
+        <th>Salário Total</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if current_user.admin? %>
+        <%= turbo_stream_from "company_#{current_user.company_id}_admin_employees" %>
+      <% else %>
+        <%= turbo_stream_from "company_#{current_user.company_id}_common_employees" %>
+        <% if current_user.employee %>
+          <%= turbo_stream_from "employee_#{current_user.employee.id}_updates" %>
+        <% end %>
+      <% end %>
+
+      <% @employees.each do |employee| %>
+        <% is_own = (current_user.employee&.id == employee.id) %>
+        <%= render "employee_row", employee: employee, is_admin: current_user.admin?, is_own_row: is_own %>
+      <% end %>
+      <% if @employees.empty? %>
+        <tr>
+          <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 32px;">Nenhum funcionário cadastrado ainda.</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

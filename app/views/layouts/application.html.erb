@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Meu Rh" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Meu Rh">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  </head>
+
+  <body>
+    <% if notice %>
+      <div class="flash-message glass-panel" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"><%= notice %></div>
+    <% end %>
+    <% if alert %>
+      <div class="flash-message glass-panel" style="position: fixed; top: 20px; right: 20px; z-index: 9999; background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.3);"><%= alert %></div>
+    <% end %>
+
+    <% if user_signed_in? %>
+      <div class="app-container">
+        <!-- Mobile Toggle Button -->
+        <button class="mobile-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+          ☰
+        </button>
+
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar glass-panel">
+          <a href="/" class="sidebar-logo">Meu RH</a>
+          
+          <div class="sidebar-nav">
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">Gestão</p>
+            <% if current_user.admin? %>
+              <%= link_to root_path, class: "nav-link #{'active' if current_page?(root_path)}" do %>
+                🏠 Dashboard
+              <% end %>
+            <% end %>
+            
+            <%= link_to employees_path, class: "nav-link #{'active' if current_page?(employees_path)}" do %>
+              👥 Funcionários
+            <% end %>
+            
+            <% if current_user.admin? %>
+              <%= link_to roles_path, class: "nav-link #{'active' if current_page?(roles_path)}" do %>
+                💼 Cargos
+              <% end %>
+            <% end %>
+
+            <hr style="border-top: 1px solid var(--glass-border); margin: 12px 0;">
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">Comunicação</p>
+            <%= link_to messages_path, class: "nav-link #{'active' if current_page?(messages_path)}" do %>
+              💬 Chat Geral
+            <% end %>
+          </div>
+
+          <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--glass-border);">
+            <div style="margin-bottom: 16px; font-size: 0.9rem;">
+              <strong style="color: white;"><%= current_user.name %></strong><br>
+              <span style="color: var(--text-muted);"><%= current_user.company&.name %></span>
+            </div>
+            <%= button_to "Sair", destroy_user_session_path, method: :delete, class: "glass-button", style: "background: rgba(239, 68, 68, 0.2); color: #fca5a5;" %>
+          </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+          <%= yield %>
+        </main>
+      </div>
+    <% else %>
+      <!-- Auth Layout -->
+      <div class="auth-wrapper">
+        <%= yield %>
+      </div>
+    <% end %>
+
+    <script>
+      // Auto-hide flash messages after 5 seconds
+      setTimeout(() => {
+        document.querySelectorAll('.flash-message').forEach(el => {
+          el.style.opacity = '0';
+          el.style.transition = 'opacity 0.5s ease';
+          setTimeout(() => el.remove(), 500);
+        });
+      }, 5000);
+    </script>
+  </body>
+</html>

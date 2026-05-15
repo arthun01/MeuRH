@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  cpf: MyString
+  age: 1
+  bonus_salary: 9.99
+  status: 1
+  company: one
+  role: one
+  discarded_at: 2026-05-14 22:29:00
+
+two:
+  name: MyString
+  cpf: MyString
+  age: 1
+  bonus_salary: 9.99
+  status: 1
+  company: two
+  role: two
+  discarded_at: 2026-05-14 22:29:00

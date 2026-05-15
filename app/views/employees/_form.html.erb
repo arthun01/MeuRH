@@ -1,0 +1,69 @@
+<%= form_with(model: employee, class: "glass-panel", style: "padding: 32px; max-width: 600px;") do |form| %>
+  <% if employee.errors.any? %>
+    <div class="flash-message" style="background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.3);">
+      <h2 style="font-size: 1rem; margin-bottom: 8px;"><%= pluralize(employee.errors.count, "erro impediu", "erros impediram") %> de salvar o funcionário:</h2>
+      <ul style="margin-left: 20px;">
+        <% employee.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :name, "Nome Completo" %>
+    <%= form.text_field :name, class: "glass-input", placeholder: "Maria Souza" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :cpf, "CPF" %>
+    <%= form.text_field :cpf, class: "glass-input", placeholder: "000.000.000-00" %>
+  </div>
+
+  <% if current_user.admin? %>
+    <hr style="border-top: 1px solid var(--glass-border); margin: 32px 0;">
+    <h3 style="margin-bottom: 20px; font-size: 1.1rem; color: white;">Acesso ao Sistema</h3>
+    
+    <%= form.fields_for :user do |user_form| %>
+      <div class="form-group">
+        <%= user_form.label :email, "E-mail de Login do Funcionário" %>
+        <%= user_form.email_field :email, class: "glass-input", placeholder: "funcionario@empresa.com" %>
+      </div>
+
+      <div class="form-group">
+        <%= user_form.label :password, "Senha de Acesso" %>
+        <%= user_form.password_field :password, class: "glass-input", placeholder: "Mínimo 6 caracteres" %>
+      </div>
+    <% end %>
+    <hr style="border-top: 1px solid var(--glass-border); margin: 32px 0;">
+  <% end %>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+    <div class="form-group">
+      <%= form.label :age, "Idade" %>
+      <%= form.number_field :age, class: "glass-input", placeholder: "Ex: 25" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :role_id, "Cargo" %>
+      <%= form.collection_select :role_id, current_user.company.roles, :id, :title, { prompt: "Selecione..." }, { class: "glass-input", style: "background: var(--bg-color);" } %>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+    <div class="form-group">
+      <%= form.label :status, "Status Atual" %>
+      <%= form.select :status, Employee.statuses.keys.map { |s| [s.humanize, s] }, {}, { class: "glass-input", style: "background: var(--bg-color);" } %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :bonus_salary, "Bônus Salarial (R$)" %>
+      <%= form.number_field :bonus_salary, step: "0.01", class: "glass-input", placeholder: "0.00" %>
+    </div>
+  </div>
+
+  <div style="margin-top: 32px; display: flex; gap: 16px;">
+    <%= form.submit "Salvar Funcionário", class: "glass-button" %>
+    <%= link_to "Cancelar", employees_path, class: "glass-button", style: "background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border);" %>
+  </div>
+<% end %>

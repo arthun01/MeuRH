@@ -1,0 +1,56 @@
+<div class="auth-card glass-panel">
+  <h2 class="auth-title">Crie sua Conta SaaS</h2>
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <div class="form-group">
+      <%= f.label :name, "Seu Nome Completo" %>
+      <%= f.text_field :name, autofocus: true, class: "glass-input", placeholder: "João da Silva" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :email, "Seu E-mail" %>
+      <%= f.email_field :email, autocomplete: "email", class: "glass-input", placeholder: "joao@exemplo.com" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password, "Senha" %>
+      <% if @minimum_password_length %>
+        <small style="color: var(--text-muted); display: block; margin-bottom: 8px;">(Mínimo de <%= @minimum_password_length %> caracteres)</small>
+      <% end %>
+      <%= f.password_field :password, autocomplete: "new-password", class: "glass-input", placeholder: "••••••••" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password_confirmation, "Confirme sua Senha" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "glass-input", placeholder: "••••••••" %>
+    </div>
+
+    <!-- Nested Form for Company -->
+    <hr style="border-top: 1px solid var(--glass-border); margin: 32px 0;">
+    <h3 style="margin-bottom: 20px; font-size: 1.2rem; color: white;">Dados da Empresa</h3>
+
+    <%= f.fields_for :company do |company_form| %>
+      <div class="form-group">
+        <%= company_form.label :name, "Nome da Empresa" %>
+        <%= company_form.text_field :name, class: "glass-input", placeholder: "Minha Empresa LTDA" %>
+      </div>
+
+      <div class="form-group">
+        <%= company_form.label :cnpj, "CNPJ" %>
+        <%= company_form.text_field :cnpj, class: "glass-input", placeholder: "00.000.000/0000-00" %>
+      </div>
+
+      <%= company_form.hidden_field :active, value: true %>
+    <% end %>
+
+    <div style="margin-top: 32px;">
+      <%= f.submit "Criar Conta e Empresa", class: "glass-button" %>
+    </div>
+  <% end %>
+
+  <div class="auth-links">
+    <%= render "devise/shared/links" %>
+  </div>
+</div>

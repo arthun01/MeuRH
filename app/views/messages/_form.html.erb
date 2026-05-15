@@ -1,0 +1,4 @@
+<%= form_with(model: message, data: { turbo: true }, style: "display: flex; gap: 12px;") do |f| %>
+  <%= f.text_field :content, class: "glass-input", placeholder: "Digite sua mensagem...", autocomplete: "off", style: "flex: 1; margin-bottom: 0;", required: true %>
+  <%= f.submit "Enviar", class: "glass-button", style: "width: auto;" %>
+<% end %>

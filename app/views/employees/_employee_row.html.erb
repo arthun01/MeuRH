@@ -1,0 +1,28 @@
+<tr id="employee_<%= employee.id %>_row">
+  <td><strong><%= employee.name %></strong></td>
+  <td><%= employee.cpf %></td>
+  <td><%= employee.role&.title || "Sem Cargo" %></td>
+  <td><%= number_to_currency(employee.total_salary, unit: "R$ ", separator: ",", delimiter: ".") %></td>
+  <td>
+    <% if is_admin || is_own_row %>
+      <%= form_with model: employee, url: employee_path(employee), method: :patch, data: { turbo: true } do |f| %>
+        <% badge_class = employee.status == 'em_servico' ? 'badge-success' : 'badge-warning' %>
+        <%= f.select :status, Employee.statuses.keys.map { |s| [s.humanize, s] }, {}, 
+            onchange: "this.form.requestSubmit()", 
+            class: "badge #{badge_class}", 
+            style: "border: 1px solid var(--glass-border); cursor: pointer; outline: none; appearance: auto;" %>
+      <% end %>
+    <% else %>
+      <% badge_class = employee.status == 'em_servico' ? 'badge-success' : 'badge-warning' %>
+      <span class="badge #{badge_class}"><%= employee.status.humanize %></span>
+    <% end %>
+  </td>
+  <td style="display: flex; gap: 12px;">
+    <% if is_admin %>
+      <%= link_to "Editar", edit_employee_path(employee), style: "color: var(--primary-color); text-decoration: none; font-weight: 500;", data: { turbo: false } %>
+      <%= button_to "Desativar", employee, method: :delete, data: { turbo_confirm: "Tem certeza que deseja desativar (soft delete)?" }, style: "background: none; border: none; color: #fca5a5; font-weight: 500; cursor: pointer; padding: 0;" %>
+    <% else %>
+      <span style="color: var(--text-muted);">-</span>
+    <% end %>
+  </td>
+</tr>

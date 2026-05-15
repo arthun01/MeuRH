@@ -1,0 +1,34 @@
+<div class="page-header">
+  <h1 class="page-title">Chat Geral</h1>
+  <p class="page-subtitle">Comunique-se com toda a equipe da <%= current_user.company.name %></p>
+</div>
+
+<div class="glass-panel" style="display: flex; flex-direction: column; height: 65vh;">
+  <%= turbo_stream_from "company_#{current_user.company_id}_chat" %>
+  
+  <div id="messages" style="flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column;">
+    <% @messages.each do |message| %>
+      <%= render message %>
+    <% end %>
+  </div>
+
+  <div style="padding: 16px; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.2);">
+    <div id="new_message_form">
+      <%= render "form", message: @new_message %>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Auto-scroll to bottom
+  const messagesContainer = document.getElementById('messages');
+  if (messagesContainer) {
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+  
+  // Watch for DOM changes to scroll to bottom when new messages arrive
+  const observer = new MutationObserver(() => {
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  });
+  observer.observe(messagesContainer, { childList: true });
+</script

@@ -1,0 +1,30 @@
+<div class="auth-card glass-panel">
+  <h2 class="auth-title">Entrar</h2>
+
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <div class="form-group">
+      <%= f.label :email, "Seu E-mail" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "glass-input", placeholder: "joao@exemplo.com" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password, "Sua Senha" %>
+      <%= f.password_field :password, autocomplete: "current-password", class: "glass-input", placeholder: "••••••••" %>
+    </div>
+
+    <% if devise_mapping.rememberable? %>
+      <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+        <%= f.check_box :remember_me %>
+        <%= f.label :remember_me, "Lembrar-me", style: "margin-bottom: 0;" %>
+      </div>
+    <% end %>
+
+    <div style="margin-top: 32px;">
+      <%= f.submit "Entrar", class: "glass-button" %>
+    </div>
+  <% end %>
+
+  <div class="auth-links">
+    <%= render "devise/shared/links" %>
+  </div>
+</div>

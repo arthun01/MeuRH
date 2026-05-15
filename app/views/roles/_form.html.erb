@@ -1,0 +1,27 @@
+<%= form_with(model: role, class: "glass-panel", style: "padding: 32px; max-width: 600px;") do |form| %>
+  <% if role.errors.any? %>
+    <div class="flash-message" style="background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.3);">
+      <h2 style="font-size: 1rem; margin-bottom: 8px;"><%= pluralize(role.errors.count, "erro impediu", "erros impediram") %> de salvar o cargo:</h2>
+      <ul style="margin-left: 20px;">
+        <% role.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :title, "Título do Cargo" %>
+    <%= form.text_field :title, class: "glass-input", placeholder: "Ex: Engenheiro de Software" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :base_salary, "Salário Base (R$)" %>
+    <%= form.number_field :base_salary, step: "0.01", class: "glass-input", placeholder: "Ex: 5000.00" %>
+  </div>
+
+  <div style="margin-top: 32px; display: flex; gap: 16px;">
+    <%= form.submit "Salvar Cargo", class: "glass-button" %>
+    <%= link_to "Cancelar", roles_path, class: "glass-button", style: "background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border);" %>
+  </div>
+<% end %>
