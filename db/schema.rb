@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_15_031039) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_24_170730) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -59,6 +59,29 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_15_031039) do
     t.index ["company_id"], name: "index_roles_on_company_id"
   end
 
+  create_table "task_assignments", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "employee_id", null: false
+    t.bigint "task_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_task_assignments_on_employee_id"
+    t.index ["task_id"], name: "index_task_assignments_on_task_id"
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.datetime "created_at", null: false
+    t.bigint "creator_id", null: false
+    t.text "description"
+    t.date "due_date"
+    t.integer "status", default: 0
+    t.string "tags", default: [], array: true
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_tasks_on_company_id"
+    t.index ["creator_id"], name: "index_tasks_on_creator_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.boolean "admin"
     t.bigint "company_id"
@@ -81,4 +104,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_15_031039) do
   add_foreign_key "messages", "companies"
   add_foreign_key "messages", "users"
   add_foreign_key "roles", "companies"
+  add_foreign_key "task_assignments", "employees"
+  add_foreign_key "task_assignments", "tasks"
+  add_foreign_key "tasks", "companies"
+  add_foreign_key "tasks", "users", column: "creator_id"
 end

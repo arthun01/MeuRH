@@ -1,0 +1,54 @@
+<%= form_with(model: task, class: "glass-panel", style: "padding: 30px; max-width: 600px;") do |f| %>
+  <% if task.errors.any? %>
+    <div style="color: #ef4444; margin-bottom: 20px;">
+      <h4><%= pluralize(task.errors.count, "erro") %>:</h4>
+      <ul>
+        <% task.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :title, t('tasks.form.title'), style: "color: white; margin-bottom: 8px; display: block;" %>
+    <%= f.text_field :title, class: "glass-input", required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description, t('tasks.form.description'), style: "color: white; margin-bottom: 8px; display: block;" %>
+    <%= f.text_area :description, class: "glass-input", rows: 4 %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :tags, t('tasks.form.tags'), style: "color: white; margin-bottom: 8px; display: block;" %>
+    <%= f.text_field :tags, value: task.tags&.join(', '), class: "glass-input", placeholder: "urgente, marketing, revisão" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :due_date, t('tasks.form.due_date'), style: "color: white; margin-bottom: 8px; display: block;" %>
+    <%= f.date_field :due_date, class: "glass-input" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :status, t('tasks.form.status'), style: "color: white; margin-bottom: 8px; display: block;" %>
+    <%= f.select :status, ['not_started', 'in_progress', 'completed'].map { |k| [t("tasks.statuses.#{k}"), k] }, {}, class: "glass-input" %>
+  </div>
+
+  <div class="form-group">
+    <label style="color: white; margin-bottom: 8px; display: block;"><%= t('tasks.form.delegates') %></label>
+    <div class="glass-input" style="max-height: 200px; overflow-y: auto;">
+      <%= f.collection_check_boxes :employee_ids, current_user.company.employees.kept, :id, :name do |b| %>
+        <div style="margin-bottom: 8px;">
+          <%= b.check_box %>
+          <%= b.label(style: "color: var(--text-main); margin-left: 8px;") %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 16px; margin-top: 32px;">
+    <%= f.submit t('tasks.form.save'), class: "glass-button", style: "flex: 1;" %>
+    <%= link_to t('tasks.form.cancel'), tasks_path, class: "glass-button", style: "flex: 1; background: rgba(255, 255, 255, 0.1); color: white;" %>
+  </div>
+<% end %>

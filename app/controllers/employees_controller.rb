@@ -14,6 +14,8 @@ class EmployeesController < ApplicationController
       csv << ["Nome", "CPF", "Idade", "Cargo", "Salário Base (R$)", "Bônus (R$)", "Salário Total (R$)", "Tempo de Serviço (Dias)"]
       @employees.each do |emp|
         tempo_servico = (Date.today - emp.created_at.to_date).to_i
+        
+        # Linha normal do funcionário
         csv << [
           emp.name,
           emp.cpf,
@@ -23,6 +25,19 @@ class EmployeesController < ApplicationController
           emp.bonus_salary || 0.0,
           emp.total_salary,
           tempo_servico
+        ]
+        
+        # Linha de Custo para Empresa (adicionando 8% de FGTS e afins)
+        custo_empresa = emp.total_salary * 1.08
+        csv << [
+          "↳ Custo para Empresa",
+          "",
+          "",
+          "Encargos (8% FGTS)",
+          "",
+          "",
+          custo_empresa,
+          ""
         ]
       end
     end

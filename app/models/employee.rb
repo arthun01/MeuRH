@@ -6,6 +6,9 @@ class Employee < ApplicationRecord
   belongs_to :role
   belongs_to :user, optional: true
 
+  has_many :task_assignments, dependent: :destroy
+  has_many :tasks, through: :task_assignments
+
   accepts_nested_attributes_for :user, reject_if: proc { |attributes| attributes['email'].blank? && attributes['password'].blank? }
 
   enum :status, { em_servico: 0, almoco: 1, fora_de_servico: 2, de_folga: 3 }, default: :fora_de_servico

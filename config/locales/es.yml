@@ -1,0 +1,31 @@
+es:
+  sidebar:
+    management: "Gestión"
+    dashboard: "🏠 Dashboard"
+    employees: "👥 Empleados"
+    roles: "💼 Cargos"
+    tasks: "📋 Tareas"
+    communication: "Comunicación"
+    general_chat: "💬 Chat General"
+    logout: "Salir"
+  tasks:
+    title: "📋 Tareas"
+    subtitle: "Haz un seguimiento de tus tareas"
+    new_task: "Nueva Tarea"
+    edit_task: "Editar Tarea"
+    statuses:
+      not_started: "No Empezado"
+      in_progress: "En Progreso"
+      completed: "Completado"
+    due_date: "⏳ Entrega: %{date}"
+    delegates: "Delegados:"
+    remove_confirm: "¿Estás seguro?"
+    form:
+      title: "Título de la Tarea"
+      description: "Descripción"
+      tags: "Etiquetas (separadas por coma)"
+      due_date: "Fecha Límite"
+      status: "Estado"
+      delegates: "Empleados Delegados"
+      save: "Guardar Tarea"
+      cancel: "Cancelar"

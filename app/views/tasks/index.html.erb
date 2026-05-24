@@ -1,0 +1,72 @@
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+  <div>
+    <h2 class="page-title"><%= t('tasks.title') %></h2>
+    <p class="page-subtitle"><%= t('tasks.subtitle') %></p>
+  </div>
+  <% if current_user.admin? %>
+    <%= link_to t('tasks.new_task'), new_task_path, class: "glass-button", style: "width: auto;" %>
+  <% end %>
+</div>
+
+<div class="kanban-board">
+  <% ['not_started', 'in_progress', 'completed'].each do |status| %>
+    <div class="kanban-column glass-panel">
+      <div class="kanban-header">
+        <h3><%= t("tasks.statuses.#{status}") %></h3>
+        <span class="badge"><%= @tasks.select { |t| t.status == status }.count %></span>
+      </div>
+      
+      <div class="kanban-cards">
+        <% @tasks.select { |t| t.status == status }.each do |task| %>
+          <div class="kanban-card">
+            <div class="card-header">
+              <h4><%= task.title %></h4>
+              <% if current_user.admin? %>
+                <div class="card-actions">
+                  <%= link_to "✏️", edit_task_path(task), title: t('tasks.edit_task') %>
+                  <%= link_to "🗑️", task_path(task), data: { turbo_method: :delete, turbo_confirm: t('tasks.remove_confirm') }, title: "Remover" %>
+                </div>
+              <% end %>
+            </div>
+            
+            <p class="task-desc"><%= truncate(task.description, length: 100) %></p>
+            
+            <% if task.tags.present? && task.tags.any? %>
+              <div class="task-tags">
+                <% task.tags.each do |tag| %>
+                  <span class="tag"><%= tag %></span>
+                <% end %>
+              </div>
+            <% end %>
+
+            <% if task.due_date.present? %>
+              <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+                <span style="color: <%= task.due_date < Date.today ? '#ef4444' : '#fbbf24' %>">
+                  <%= t('tasks.due_date', date: task.due_date.strftime("%d/%m/%Y")) %>
+                </span>
+              </div>
+            <% end %>
+
+            <% if current_user.admin? %>
+              <div class="task-delegates">
+                <small><%= t('tasks.delegates') %></small>
+                <% task.employees.each do |emp| %>
+                  <span class="delegate-badge"><%= emp.name %></span>
+                <% end %>
+              </div>
+            <% end %>
+
+            <% if !current_user.admin? %>
+              <div class="status-updater">
+                <%= form_with model: task, local: true, class: "status-form" do |f| %>
+                  <%= f.select :status, ['not_started', 'in_progress', 'completed'].map { |k| [t("tasks.statuses.#{k}"), k] }, {}, onchange: "this.form.submit();", class: "glass-input select-status" %>
+                <% end %>
+              </div>
+            <% end %>
+
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
