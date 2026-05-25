@@ -15,10 +15,13 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <!-- Google Fonts: Inter -->
+    <!-- Google Fonts: Open Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tabler Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
@@ -41,50 +44,52 @@
 
         <!-- Sidebar -->
         <aside id="sidebar" class="sidebar glass-panel">
-          <a href="/" class="sidebar-logo">Meu RH</a>
+          <a href="/" class="sidebar-logo">
+            <i class="ti ti-building-community"></i> Meu RH
+          </a>
           
           <div class="sidebar-nav">
             <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;"><%= t('sidebar.management') %></p>
             <% if current_user.admin? %>
               <%= link_to root_path, class: "nav-link #{'active' if current_page?(root_path)}" do %>
-                <%= t('sidebar.dashboard') %>
+                <i class="ti ti-dashboard"></i> <%= t('sidebar.dashboard') %>
               <% end %>
             <% end %>
             
             <%= link_to employees_path, class: "nav-link #{'active' if current_page?(employees_path)}" do %>
-              <%= t('sidebar.employees') %>
+              <i class="ti ti-users"></i> <%= t('sidebar.employees') %>
             <% end %>
             
             <% if current_user.admin? %>
               <%= link_to roles_path, class: "nav-link #{'active' if current_page?(roles_path)}" do %>
-                <%= t('sidebar.roles') %>
+                <i class="ti ti-briefcase"></i> <%= t('sidebar.roles') %>
               <% end %>
             <% end %>
 
             <%= link_to tasks_path, class: "nav-link #{'active' if current_page?(tasks_path)}" do %>
-              <%= t('sidebar.tasks') %>
+              <i class="ti ti-checklist"></i> <%= t('sidebar.tasks') %>
             <% end %>
 
-            <hr style="border-top: 1px solid var(--glass-border); margin: 12px 0;">
+            <hr style="border-top: 1px solid var(--border-color); margin: 12px 0;">
             <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;"><%= t('sidebar.communication') %></p>
             <%= link_to messages_path, class: "nav-link #{'active' if current_page?(messages_path)}" do %>
-              <%= t('sidebar.general_chat') %>
+              <i class="ti ti-messages"></i> <%= t('sidebar.general_chat') %>
             <% end %>
           </div>
 
           <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--glass-border);">
             
             <div style="margin-bottom: 16px; display: flex; gap: 8px; justify-content: center;">
-              <%= link_to "PT", { locale: "pt-BR" }, class: "badge #{I18n.locale == :"pt-BR" ? 'badge-success' : 'glass-panel-inner'}", style: "text-decoration: none; color: white;" %>
-              <%= link_to "EN", { locale: "en" }, class: "badge #{I18n.locale == :en ? 'badge-success' : 'glass-panel-inner'}", style: "text-decoration: none; color: white;" %>
-              <%= link_to "ES", { locale: "es" }, class: "badge #{I18n.locale == :es ? 'badge-success' : 'glass-panel-inner'}", style: "text-decoration: none; color: white;" %>
+              <%= link_to "PT", { locale: "pt-BR" }, class: "badge #{I18n.locale == :"pt-BR" ? 'badge-success' : 'glass-panel-inner'}", style: "text-decoration: none; color: var(--text-main);" %>
+              <%= link_to "EN", { locale: "en" }, class: "badge #{I18n.locale == :en ? 'badge-success' : 'glass-panel-inner'}", style: "text-decoration: none; color: var(--text-main);" %>
+              <%= link_to "ES", { locale: "es" }, class: "badge #{I18n.locale == :es ? 'badge-success' : 'glass-panel-inner'}", style: "text-decoration: none; color: var(--text-main);" %>
             </div>
 
             <div style="margin-bottom: 16px; font-size: 0.9rem;">
-              <strong style="color: white;"><%= current_user.name %></strong><br>
+              <strong style="color: var(--text-main);"><%= current_user.name %></strong><br>
               <span style="color: var(--text-muted);"><%= current_user.company&.name %></span>
             </div>
-            <%= button_to t('sidebar.logout'), destroy_user_session_path, method: :delete, class: "glass-button", style: "background: rgba(239, 68, 68, 0.2); color: #fca5a5;" %>
+            <%= button_to t('sidebar.logout'), destroy_user_session_path, method: :delete, class: "glass-button", style: "background: var(--danger-bg); color: var(--danger-text);" %>
           </div>
         </aside>
 

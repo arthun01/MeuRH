@@ -23,8 +23,12 @@
               <h4><%= task.title %></h4>
               <% if current_user.admin? %>
                 <div class="card-actions">
-                  <%= link_to "✏️", edit_task_path(task), title: t('tasks.edit_task') %>
-                  <%= link_to "🗑️", task_path(task), data: { turbo_method: :delete, turbo_confirm: t('tasks.remove_confirm') }, title: "Remover" %>
+                  <%= link_to edit_task_path(task), title: t('tasks.edit_task') do %>
+                    <i class="ti ti-pencil"></i>
+                  <% end %>
+                  <%= link_to task_path(task), data: { turbo_method: :delete, turbo_confirm: t('tasks.remove_confirm') }, title: "Remover" do %>
+                    <i class="ti ti-trash"></i>
+                  <% end %>
                 </div>
               <% end %>
             </div>
@@ -41,8 +45,8 @@
 
             <% if task.due_date.present? %>
               <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
-                <span style="color: <%= task.due_date < Date.today ? '#ef4444' : '#fbbf24' %>">
-                  <%= t('tasks.due_date', date: task.due_date.strftime("%d/%m/%Y")) %>
+                <span style="color: <%= task.due_date < Date.today ? '#ef4444' : '#d97706' %>">
+                  <i class="ti ti-clock"></i> <%= t('tasks.due_date', date: task.due_date.strftime("%d/%m/%Y")) %>
                 </span>
               </div>
             <% end %>

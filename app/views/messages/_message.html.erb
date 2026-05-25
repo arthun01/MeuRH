@@ -1,13 +1,13 @@
 <% is_admin = message.user.admin? %>
 <div class="message-bubble <%= is_admin ? 'admin-message' : '' %>" style="padding: 12px 16px; margin-bottom: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 12px; max-width: 80%;">
-  <div style="font-size: 0.8rem; margin-bottom: 4px; color: var(--text-muted); display: flex; align-items: center; gap: 8px;">
-    <strong style="color: <%= is_admin ? 'var(--primary-color)' : 'white' %>;"><%= message.user.name %></strong>
+  <div style="font-size: 0.8rem; margin-bottom: 4px; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
+    <strong style="color: <%= is_admin ? 'var(--primary-color)' : 'var(--text-main)' %>;"><%= message.user.name %></strong>
     <% if is_admin %>
       <span class="badge badge-success" style="font-size: 0.6rem; padding: 2px 6px;">Gestor</span>
     <% end %>
     <span style="font-size: 0.7rem;"><%= message.created_at.strftime("%H:%M") %></span>
   </div>
-  <div style="color: white; line-height: 1.4; word-break: break-word;">
+  <div style="color: var(--text-main); line-height: 1.4; word-break: break-word;">
     <%= message.content %>
   </div>
 </div>

@@ -1,15 +1,15 @@
 pt-BR:
   sidebar:
     management: "Gestão"
-    dashboard: "🏠 Dashboard"
-    employees: "👥 Funcionários"
-    roles: "💼 Cargos"
-    tasks: "📋 Tarefas"
+    dashboard: "Dashboard"
+    employees: "Funcionários"
+    roles: "Cargos"
+    tasks: "Tarefas"
     communication: "Comunicação"
-    general_chat: "💬 Chat Geral"
+    general_chat: "Chat Geral"
     logout: "Sair"
   tasks:
-    title: "📋 Tarefas"
+    title: "Tarefas"
     subtitle: "Acompanhe as tarefas designadas"
     new_task: "Nova Tarefa"
     edit_task: "Editar Tarefa"
@@ -17,7 +17,7 @@ pt-BR:
       not_started: "Não Comecei"
       in_progress: "Iniciado"
       completed: "Finalizado"
-    due_date: "⏳ Entrega: %{date}"
+    due_date: "Entrega: %{date}"
     delegates: "Delegados:"
     remove_confirm: "Tem certeza?"
     form:

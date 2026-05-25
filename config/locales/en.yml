@@ -1,15 +1,15 @@
 en:
   sidebar:
     management: "Management"
-    dashboard: "🏠 Dashboard"
-    employees: "👥 Employees"
-    roles: "💼 Roles"
-    tasks: "📋 Tasks"
+    dashboard: "Dashboard"
+    employees: "Employees"
+    roles: "Roles"
+    tasks: "Tasks"
     communication: "Communication"
-    general_chat: "💬 General Chat"
+    general_chat: "General Chat"
     logout: "Logout"
   tasks:
-    title: "📋 Tasks"
+    title: "Tasks"
     subtitle: "Track your assigned tasks"
     new_task: "New Task"
     edit_task: "Edit Task"
@@ -17,7 +17,7 @@ en:
       not_started: "Not Started"
       in_progress: "In Progress"
       completed: "Completed"
-    due_date: "⏳ Due: %{date}"
+    due_date: "Due: %{date}"
     delegates: "Delegates:"
     remove_confirm: "Are you sure?"
     form:
