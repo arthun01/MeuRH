@@ -69,7 +69,7 @@ end
 
 gem "devise", "~> 5.0"
 gem "cpf_cnpj", "~> 1.1"
-gem "discard", "~> 1.4"
+gem "discard", "~> 2.0"
 gem "acts_as_tenant", "~> 1.0"
 
 gem "csv", "~> 3.3"
